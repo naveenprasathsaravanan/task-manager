@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_URL || "http://localhost:5000";
+
 function App() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
-
+  let nav = "temprary";
   const fetchTasks = async () => {
-    const res = await axios.get("http://localhost:5000/tasks");
-    setTasks(res.data);
+    const response = await axios.get(`${API_URL}/tasks`);
+    setTasks(response.data);
   };
 
   useEffect(() => {
@@ -15,13 +17,14 @@ function App() {
   }, []);
 
   const addTask = async () => {
-    await axios.post("http://localhost:5000/tasks", { title: task });
+    if (!task.trim()) return;
+    await axios.post(`${API_URL}/tasks`, { title: task });
     setTask("");
     fetchTasks();
   };
 
   const deleteTask = async (id) => {
-    await axios.delete(`http://localhost:5000/tasks/${id}`);
+    await axios.delete(`${API_URL}/tasks/${id}`);
     fetchTasks();
   };
 
