@@ -6,7 +6,6 @@ const API_URL = process.env.REACT_APP_URL || "http://localhost:5000";
 function App() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
-  let nav = "temprary";
   const fetchTasks = async () => {
     const response = await axios.get(`${API_URL}/tasks`);
     setTasks(response.data);
